@@ -1,7 +1,5 @@
 import cv2
 import pandas
-
-import cv2
 import torch
 import warnings
 warnings.filterwarnings("ignore")
@@ -20,10 +18,6 @@ import numpy as np
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-
-
-
-
 
 
 
@@ -71,16 +65,15 @@ def detect(boxes,t1):
                 if ((xmin>=t1[0] & t1[0]<=xmax) | (xmin>=t1[2] & t1[2]<=xmax)) & ((ymin>=t1[1] & t1[1]<=ymax) | (ymin>=t1[3] & t1[3]<=ymax)):
                     # print("are you here")
                     return True
-
-
     return False
+
 def send_message():
     client = vonage.Client(key="4627a3c9", secret="KAd19Rz2sQ7HM3Tc")
     sms = vonage.Sms(client)
     responseData = sms.send_message(
         {
-            "from": "Jatin Goyal",
-            "to": "918168991401",
+            "from": "Moyla",
+            "to": "7085740317",
             "text": "Urgent \n Accident happened at raj labadi. Please send ambulance as soon as possible. Google map link :- https://www.google.com/maps/search/?api=1&query=47.5%2C-122.3316393 ",
         }
     )
@@ -97,24 +90,26 @@ def sendmail():
     gmail_list=[]
     for hos in hospital.values():
         gmail_list.append(hos['email'])
-    gmail_list.append("sachinkhandelwal9413@gmail.com")
+    gmail_list.append("swarnatirtha22@gmail.com")
     print("gmail list",gmail_list)
     email_subject = "Urgent please send ambulance."
     email_body = "Accident happened at raj labadi please send ambulance as soon as possible. Google map link :- https://www.google.com/maps/search/?api=1&query=47.5%2C122.3316393 "
-    # email="sachinkhandelwal9413@gmail.com"
+    email="swarnatirtha22@gmail.com"
     print(send_mail(email_subject, email_body,
                   settings.EMAIL_HOST_USER, gmail_list, fail_silently=False))
     return 
 
 class streaming(object):
     def __init__(self):
-        print("hello")
+        print("Project Sttarted")
         self.flag=True
-        self.video_capture = cv2.VideoCapture()
-        self.video_capture = cv2.VideoCapture("highway_accident.mp4")
-        self.model1=torch.hub.load('ultralytics/yolov5', 'custom', path='../best.pt',device='cpu')
-        self.model = torch.hub.load('ultralytics/yolov5', 'custom', path='../accident2.pt',device='cpu')
-        model1 = torch.hub.load('ultralytics/yolov5', 'custom', path='../accident.pt')
+        # self.video_capture = cv2.VideoCapture(0)
+        self.video_capture = cv2.VideoCapture('highway_accident.mp4')
+        print('model1')
+        self.model1=torch.hub.load('ultralytics/yolov5', 'custom', path="best.pt",device='cpu')
+        self.model = torch.hub.load('ultralytics/yolov5', 'custom', path="accident2.pt",device='cpu')
+        print('model1')
+        # model1 = torch.hub.load('ultralytics/yolov5', 'custom', path='C:\\Users\\hp\\Desktop\\accident.pt')
 
     def get_frame(self):
         ret, frame = self.video_capture.read()
